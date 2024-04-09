@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Flight from "./Flight";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -10,27 +9,23 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 function List_flights() {
   const [flightsData, setFlightsData] = useState([]);
-  const [statusData, setStatusData] = useState([]);
   const [statusDataSelected, setStatusDataSelected] = useState("");
   const [originDataSelected, setOriginSelected] = useState("");
   const [destinationDataSelected, setDestinationSelected] = useState("");
-  const [booking, setBooking] = useState("");
+
   const handdleStatus = (e) => {
     const selectedValue = e.target.value;
     setStatusDataSelected(selectedValue);
-    console.log(selectedValue);
   };
 
   const handdleOrigin = (e) => {
     const selectedValue = e.target.value;
     setOriginSelected(selectedValue);
-    console.log(selectedValue);
   };
 
   const handdleDestination = (e) => {
     const selectedValue = e.target.value;
     setDestinationSelected(selectedValue);
-    console.log(selectedValue);
   };
 
   let filteredFlights = flightsData;
@@ -47,13 +42,11 @@ function List_flights() {
     );
   }
 
-  if (originDataSelected !== "") {
+  if (destinationDataSelected !== "") {
     filteredFlights = filteredFlights.filter(
       (flight) => flight.destination === destinationDataSelected
     );
   }
-
-  console.log(filteredFlights);
 
   useEffect(() => {
     let dataFetch = fetch(
@@ -65,19 +58,15 @@ function List_flights() {
       })
       .then((res) => {
         setFlightsData(res);
-        setStatusData(
-          res.map((status) => {
-            return status.status;
-          })
-        );
       });
   }, []);
+
   return (
     <div>
       {" "}
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+          <Navbar.Brand href="/">Simulador de reservas</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
@@ -165,7 +154,7 @@ function List_flights() {
         <Row>
           {filteredFlights.map((flight) => {
             return (
-              <Col sm={4}>
+              <Col sm={4} key={flight.id}>
                 <Flight
                   id={flight.id}
                   airline={flight.airline}
@@ -178,7 +167,7 @@ function List_flights() {
                   status={flight.status}
                   aircraftType={flight.aircraftType}
                   capacity={flight.capacity}
-                ></Flight>
+                />
               </Col>
             );
           })}

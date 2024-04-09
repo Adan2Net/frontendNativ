@@ -89,7 +89,7 @@ function Booking({ id, showModal, setShowModal, handleCloseModal }) {
         setBookingId(bookingId);
         setShowModal1(true);
         setShowModal(false);
-        console.log("Solicitud POST de reserva enviada con éxito");
+        //console.log("Solicitud POST de reserva enviada con éxito");
       } else {
         console.error("Error al enviar la solicitud de reserva");
       }
@@ -213,7 +213,7 @@ function Booking({ id, showModal, setShowModal, handleCloseModal }) {
         <Booking_info
           idBooking={bookingId}
           showModal1={showModal1}
-          setShowModal={setShowModal1}
+          setShowModal1={setShowModal1}
           handleCloseModal1={handleCloseModal1}
         />
       )}

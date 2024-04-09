@@ -62,14 +62,14 @@ function Booking_info({
       const bookingDelete = await fetch(
         `https://backendnativ-production.up.railway.app/api/v1/bookings/${idBooking}`,
         {
-          method: "DELETE"
+          method: "DELETE",
         }
       );
 
       if (bookingDelete.ok) {
         setShowDeleteModal(true);
-        setShowModal1(false); // Cerrar modal principal
-        console.log("Se eliminó la reserva exitosamente");
+        setShowModal1(false);
+        //console.log("Se eliminó la reserva exitosamente");
       } else {
         console.error("Error al eliminar la reserva");
       }
@@ -115,7 +115,7 @@ function Booking_info({
           <p>Método de pago: {paymentMethod}</p>
         </Modal.Body>
         <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseModal1}>
+          <Button variant="secondary" onClick={handleCloseModal1}>
             Cerrar
           </Button>
           <Button
@@ -129,9 +129,9 @@ function Booking_info({
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showDeleteModal} onHide={() => handleCloseModal1(true)}>
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Eliminar Reserva</Modal.Title>
+          <Modal.Title>Reserva eliminada</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>La reserva ha sido eliminada exitosamente.</p>

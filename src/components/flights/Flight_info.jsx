@@ -91,7 +91,12 @@ function Flight_info({
       </Modal>
       {idDataSelected && (
         // eslint-disable-next-line react/jsx-pascal-case
-        <Booking id={idDataSelected} showModal={showModal} setShowModal={setShowModal} handleCloseModal={handleCloseModal} />
+        <Booking
+          id={idDataSelected}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          handleCloseModal={handleCloseModal}
+        />
       )}
     </div>
   );
