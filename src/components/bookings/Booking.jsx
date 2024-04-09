@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import Booking_info from "./Booking_info";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
-function Booking({ id }) {
+function Booking({ id, showModal, setShowModal, handleCloseModal }) {
   const [bookingId, setBookingId] = useState("");
+  const [showModal1, setShowModal1] = useState(false);
+  const handleCloseModal1 = () => setShowModal1(false);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -15,7 +20,15 @@ function Booking({ id }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "phone") {
+      const phoneRegex = /^[0-9-]*$/;
+
+      if (phoneRegex.test(value)) {
+        setFormData({ ...formData, [name]: value });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -79,93 +92,117 @@ function Booking({ id }) {
 
   return (
     <div>
-      <h1>Formulario de Reserva</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="first_name">Nombre:</label>
-        <input
-          type="text"
-          id="first_name"
-          name="first_name"
-          value={formData.first_name}
-          onChange={handleChange}
-          required
-        />
-        <br />
-
-        <label htmlFor="last_name">Apellido:</label>
-        <input
-          type="text"
-          id="last_name"
-          name="last_name"
-          value={formData.last_name}
-          onChange={handleChange}
-          required
-        />
-        <br />
-
-        <label htmlFor="email">Correo Electrónico:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <br />
-
-        <label htmlFor="phone">Teléfono:</label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          required
-        />
-        <br />
-
-        <label htmlFor="address">Dirección:</label>
-        <input
-          type="text"
-          id="address"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          required
-        />
-        <br />
-
-        <label htmlFor="date_of_birth">Fecha de Nacimiento:</label>
-        <input
-          type="date"
-          id="date_of_birth"
-          name="date_of_birth"
-          value={formData.date_of_birth}
-          onChange={handleChange}
-          required
-        />
-        <br />
-
-        <label htmlFor="gender">Género:</label>
-        <select
-          id="gender"
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-          required
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Detalles del vuelo</Modal.Title>
+        </Modal.Header>
+        <Modal.Body
+          style={{
+            backgroundColor: "#f8f9fa",
+            borderRadius: "5px",
+            padding: "20px",
+          }}
         >
-          <option value="">Seleccionar</option>
-          <option value="male">Masculino</option>
-          <option value="female">Femenino</option>
-        </select>
-        <br />
+          <h1>Formulario de Reserva</h1>
+          <form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="first_name">
+              <Form.Label>Nombre</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Nombre"
+                id="first_name"
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="last_name">
+              <Form.Label>Apellido</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Apellido"
+                id="last_name"
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Correo</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Correo"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="phone">
+              <Form.Label>Telefono</Form.Label>
+              <Form.Control
+                type="tel"
+                placeholder="Telefono"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="address">
+              <Form.Label>Dirección</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="address"
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="date_of_birth">
+              <Form.Label>Fecha de Nacimiento:</Form.Label>
+              <Form.Control
+                type="date"
+                id="date_of_birth"
+                name="date_of_birth"
+                value={formData.date_of_birth}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-        <button type="submit">Enviar</button>
-      </form>
+            <label htmlFor="gender">Género:</label>
+            <Form.Select
+              aria-label="Genero"
+              id="gender"
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Seleccionar</option>
+              <option value="male">Masculino</option>
+              <option value="female">Femenino</option>
+            </Form.Select>
+            <br />
+          </form>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button type="submit" variant="primary">
+            Enviar
+          </Button>
+        </Modal.Footer>
+      </Modal>
       {bookingId && (
         // eslint-disable-next-line react/jsx-pascal-case
-        <Booking_info idBooking={bookingId} />
+        <Booking_info idBooking={bookingId}  showModal1={showModal1} setShowModal={setShowModal1} handleCloseModal1={handleCloseModal1}/>
       )}
     </div>
   );

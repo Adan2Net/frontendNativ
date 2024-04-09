@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
-function Booking_info({ idBooking }) {
+function Booking_info({
+  idBooking,
+  showModal1,
+  setShowModal1,
+  handleCloseModal1,
+}) {
   const [bookingData, setBookingData] = useState(null);
 
   useEffect(() => {
@@ -22,7 +29,6 @@ function Booking_info({ idBooking }) {
 
     fetchBookingData();
   }, [idBooking]);
-  
 
   if (!bookingData) {
     return <div>Cargando...</div>;
@@ -65,9 +71,7 @@ function Booking_info({ idBooking }) {
       if (bookingDelete.ok) {
         console.log("Se elimino la reserva");
         return;
-      }
-
-      else {
+      } else {
         console.error("Error al eliminar la reserva");
         return;
       }
@@ -78,35 +82,59 @@ function Booking_info({ idBooking }) {
 
   return (
     <div>
-      <h1>Datos Del Usuario</h1>
-      <h2>
-        Usuario: {first_name} {last_name}
-      </h2>
-      <h2>Correo electrónico: {email}</h2>
-      <h2>Teléfono: {phone}</h2>
-      <h2>Dirección: {address}</h2>
-      <h2>Fecha de nacimiento: {date_of_birth}</h2>
-      <h2>Género: {gender}</h2>
-      <h1>Datos Del vuelo</h1>
-      <h2>Origen: {origin}</h2>
-      <h2>Destino: {destination}</h2>
-      <h1>Aerolínea: {airline}</h1>
-      <h2>Hora de salida: {departureTime}</h2>
-      <h2>Hora de llegada: {arrivalTime}</h2>
-      <h2>Duración del vuelo: {duration} minutos</h2>
-      <h2>Tipo de aeronave: {aircraftType}</h2>
-      <h2>Capacidad: {capacity}</h2>
-      <h2>Precio: {price}</h2>
-      <h1>Datos De La Reserva</h1>
-      <h2>Estado: {status}</h2>
-      <h2>Método de pago: {paymentMethod}</h2>
-      <button
-        onClick={() => {
-            handdleBookingDelete(idBooking);
-        }}
-      >
-        Eliminar Reserva
-      </button>
+      <Modal show={showModal1} onHide={handleCloseModal1}>
+        <Modal.Header closeButton>
+          <Modal.Title>Detalles del vuelo</Modal.Title>
+        </Modal.Header>
+        <Modal.Body
+          style={{
+            backgroundColor: "#f8f9fa",
+            borderRadius: "5px",
+            padding: "20px",
+          }}
+        >
+          <p>
+            <strong>Datos Del Usuario</strong>
+          </p>
+          <p>
+            Usuario: {first_name} {last_name}
+          </p>
+          <p>Correo electrónico: {email}</p>
+          <p>Teléfono: {phone}</p>
+          <p>Dirección: {address}</p>
+          <p>Fecha de nacimiento: {date_of_birth}</p>
+          <p>Género: {gender}</p>
+          <p>
+            <strong>Datos Del vuelo</strong>
+          </p>
+          <p>Origen: {origin}</p>
+          <p>Destino: {destination}</p>
+          <p>
+            <strong>Aerolínea: {airline}</strong>
+          </p>
+          <p>Hora de salida: {departureTime}</p>
+          <p>Hora de llegada: {arrivalTime}</p>
+          <p>Duración del vuelo: {duration} minutos</p>
+          <p>Tipo de aeronave: {aircraftType}</p>
+          <p>Capacidad: {capacity}</p>
+          <p>Precio: {price}</p>
+          <p>
+            <strong>Datos De La Reserva</strong>
+          </p>
+          <p>Estado: {status}</p>
+          <p>Método de pago: {paymentMethod}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            onClick={() => {
+              handdleBookingDelete(idBooking);
+            }}
+          >
+            Eliminar Reserva
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

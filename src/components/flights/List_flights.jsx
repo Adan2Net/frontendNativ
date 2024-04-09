@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import Flight from "./Flight";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function List_flights() {
   const [flightsData, setFlightsData] = useState([]);
@@ -114,14 +117,17 @@ function List_flights() {
             </option>
           ))}
       </select>
-      {filteredFlights.map((flight) => {
+      <Container>
+      <Row>
+        {filteredFlights.map((flight) => {
         return (
+          <Col sm={4}>
           <Flight
           id={flight.id}
           airline={flight.airline}
           origin={flight.origin}
           destination={flight.destination}
-          price={flight.precio}
+          price={flight.price}
           departureTime={flight.departureTime}
           arrivalTime={flight.arrivalTime}
           duration={flight.duration}
@@ -129,8 +135,11 @@ function List_flights() {
           aircraftType={flight.aircraftType}
           capacity={flight.capacity}
           ></Flight>
+          </Col>
         );
       })}
+      </Row>
+    </Container>
     </div>
   );
 }

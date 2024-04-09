@@ -1,5 +1,6 @@
 import './App.css';
 import List_flights from './components/flights/List_flights';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
