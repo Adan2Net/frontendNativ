@@ -9,6 +9,7 @@ function Booking_info({
   handleCloseModal1,
 }) {
   const [bookingData, setBookingData] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const fetchBookingData = async () => {
@@ -61,19 +62,16 @@ function Booking_info({
       const bookingDelete = await fetch(
         `https://backendnativ-production.up.railway.app/api/v1/bookings/${idBooking}`,
         {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          method: "DELETE"
         }
       );
 
       if (bookingDelete.ok) {
-        console.log("Se elimino la reserva");
-        return;
+        setShowDeleteModal(true);
+        setShowModal1(false); // Cerrar modal principal
+        console.log("Se eliminó la reserva exitosamente");
       } else {
         console.error("Error al eliminar la reserva");
-        return;
       }
     } catch (error) {
       console.error("Error en la solicitud DELETE:", error);
@@ -86,18 +84,12 @@ function Booking_info({
         <Modal.Header closeButton>
           <Modal.Title>Detalles del vuelo</Modal.Title>
         </Modal.Header>
-        <Modal.Body
-          style={{
-            backgroundColor: "#f8f9fa",
-            borderRadius: "5px",
-            padding: "20px",
-          }}
-        >
+        <Modal.Body>
           <p>
             <strong>Datos Del Usuario</strong>
           </p>
           <p>
-            Usuario: {first_name} {last_name}
+            Nombre: {first_name} {last_name}
           </p>
           <p>Correo electrónico: {email}</p>
           <p>Teléfono: {phone}</p>
@@ -109,14 +101,12 @@ function Booking_info({
           </p>
           <p>Origen: {origin}</p>
           <p>Destino: {destination}</p>
-          <p>
-            <strong>Aerolínea: {airline}</strong>
-          </p>
+          <p>Aerolínea: {airline}</p>
           <p>Hora de salida: {departureTime}</p>
           <p>Hora de llegada: {arrivalTime}</p>
           <p>Duración del vuelo: {duration} minutos</p>
           <p>Tipo de aeronave: {aircraftType}</p>
-          <p>Capacidad: {capacity}</p>
+          <p># Pasajeros: {capacity}</p>
           <p>Precio: {price}</p>
           <p>
             <strong>Datos De La Reserva</strong>
@@ -125,6 +115,9 @@ function Booking_info({
           <p>Método de pago: {paymentMethod}</p>
         </Modal.Body>
         <Modal.Footer>
+        <Button variant="secondary" onClick={handleCloseModal1}>
+            Cerrar
+          </Button>
           <Button
             variant="primary"
             onClick={() => {
@@ -132,6 +125,20 @@ function Booking_info({
             }}
           >
             Eliminar Reserva
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showDeleteModal} onHide={() => handleCloseModal1(true)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Eliminar Reserva</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>La reserva ha sido eliminada exitosamente.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+            Cerrar
           </Button>
         </Modal.Footer>
       </Modal>

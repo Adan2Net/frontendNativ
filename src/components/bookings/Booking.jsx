@@ -34,6 +34,12 @@ function Booking({ id, showModal, setShowModal, handleCloseModal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const isFormEmpty = Object.values(formData).some((value) => value === "");
+
+    if (isFormEmpty) {
+      return;
+    }
+
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString();
 
@@ -81,6 +87,8 @@ function Booking({ id, showModal, setShowModal, handleCloseModal }) {
         const BookingData = await BookingResponse.json();
         const bookingId = BookingData.id;
         setBookingId(bookingId);
+        setShowModal1(true);
+        setShowModal(false);
         console.log("Solicitud POST de reserva enviada con éxito");
       } else {
         console.error("Error al enviar la solicitud de reserva");
@@ -187,22 +195,27 @@ function Booking({ id, showModal, setShowModal, handleCloseModal }) {
               required
             >
               <option value="">Seleccionar</option>
-              <option value="male">Masculino</option>
-              <option value="female">Femenino</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
             </Form.Select>
             <br />
           </form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" onClick={handleSubmit}>
             Enviar
           </Button>
         </Modal.Footer>
       </Modal>
       {bookingId && (
         // eslint-disable-next-line react/jsx-pascal-case
-        <Booking_info idBooking={bookingId}  showModal1={showModal1} setShowModal={setShowModal1} handleCloseModal1={handleCloseModal1}/>
+        <Booking_info
+          idBooking={bookingId}
+          showModal1={showModal1}
+          setShowModal={setShowModal1}
+          handleCloseModal1={handleCloseModal1}
+        />
       )}
     </div>
   );
